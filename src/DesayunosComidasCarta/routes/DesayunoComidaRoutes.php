@@ -18,8 +18,5 @@ if ($request_method == 'GET' && $request_uri === '/api/comedores/desayunos_comid
 } else if ($request_method == 'GET' && preg_match('/\/api\/comedores\/informacionNutrimental\/obtenerInformacionNutrimentalPorId\/(\d+)/', $request_uri, $matches)) {
     $id = $matches[1];
     DesayunoComidaController::obtenerInformacionNutrimentalPorId($id);
-} else {
-    header("HTTP/1.1 404 Not Found");
-    echo "<error>Ruta no encontrada</error>";
-}
+} 
 ?>
