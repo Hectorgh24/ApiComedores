@@ -2,6 +2,15 @@
 require_once __DIR__ . '/../models/DesayunoComida.php';
 
 class DesayunoComidaService {
+
+    public static function obtenerPorFechaDesayuno($fecha) {
+        return DesayunoComida::obtenerPorFechaDesayuno($fecha);
+    }
+
+    public static function obtenerPorFechaComida($fecha) {
+        return DesayunoComida::obtenerPorFechaComida($fecha);
+    }
+
     public static function obtenerTodos() {
         return DesayunoComida::obtenerTodos();
     }

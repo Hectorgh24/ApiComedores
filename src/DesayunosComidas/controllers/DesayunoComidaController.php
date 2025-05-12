@@ -3,6 +3,35 @@ require_once __DIR__ . '/../services/DesayunoComidaService.php';
 require_once __DIR__ . '/../../../handler/XmlHandler.php';
 
 class DesayunoComidaController {
+
+    public static function obtenerPorFechaDesayuno($fecha) {
+        ob_start();
+        $DesayunosComidas = DesayunoComidaService::obtenerPorFechaDesayuno($fecha);
+        header('Content-Type: application/xml'); 
+
+        if(!$DesayunosComidas) {
+            header("HTTP/1.1 404 Not Found");
+            echo "<error>Desayuno o comida no encontrado</error>";
+        }
+
+        echo XmlHandler::generarXML($DesayunosComidas, 'desayunos_comidas', 'desayuno_comida');
+        ob_end_flush(); // Envía el contenido del buffer y lo limpia
+    }
+
+    public static function obtenerPorFechaComida($fecha) {
+        ob_start();
+        $DesayunosComidas = DesayunoComidaService::obtenerPorFechaComida($fecha);
+        header('Content-Type: application/xml'); 
+
+        if(!$DesayunosComidas) {
+            header("HTTP/1.1 404 Not Found");
+            echo "<error>Desayuno o comida no encontrado</error>";
+        }
+
+        echo XmlHandler::generarXML($DesayunosComidas, 'desayunos_comidas', 'desayuno_comida');
+        ob_end_flush(); // Envía el contenido del buffer y lo limpia
+    }
+
     public static function index() {
         ob_start();
         $DesayunosComidas = DesayunoComidaService::obtenerTodos();

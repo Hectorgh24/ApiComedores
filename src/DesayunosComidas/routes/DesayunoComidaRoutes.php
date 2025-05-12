@@ -18,5 +18,15 @@ if ($request_method == 'GET' && $request_uri === '/api/comedores/desayunos_comid
 } else if ($request_method == 'GET' && preg_match('/\/api\/comedores\/informacionNutrimental\/obtenerInformacionNutrimentalPorId\/(\d+)/', $request_uri, $matches)) {
     $id = $matches[1];
     DesayunoComidaController::obtenerInformacionNutrimentalPorId($id);
-} 
+} else if ($request_method == 'GET' && preg_match('/\/api\/comedores\/desayunos_comidas\/obtenerPorFechaDesayuno\/(\d{4}-\d{2}-\d{2})/', $request_uri, $matches)) {
+    $fecha = $matches[1];
+    DesayunoComidaController::obtenerPorFechaDesayuno($fecha);
+}  else if ($request_method == 'GET' && preg_match('/\/api\/comedores\/desayunos_comidas\/obtenerPorFechaComida\/(\d{4}-\d{2}-\d{2})/', $request_uri, $matches)) {
+    $fecha = $matches[1];
+    DesayunoComidaController::obtenerPorFechaComida($fecha);
+} else {
+    header("HTTP/1.1 404 Not Found");
+    echo "<error>Ruta no encontrada</error>";
+}
+
 ?>

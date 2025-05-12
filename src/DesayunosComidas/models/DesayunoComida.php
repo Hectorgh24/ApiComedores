@@ -9,6 +9,27 @@ class DesayunoComida {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public static function obtenerPorFechaDesayuno($fecha) {
+        global $conn;
+        $query = "SELECT * FROM desayuno_comida WHERE fecha = ? and tipo = 'desayuno'";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $fecha);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public static function obtenerPorFechaComida($fecha) {
+        global $conn;
+        $query = "SELECT * FROM desayuno_comida WHERE fecha = ? and tipo = 'comida'";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $fecha);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
     public static function obtenerPorId($id) {
         global $conn;
         $query = "SELECT * FROM desayuno_comida WHERE id = ?";
