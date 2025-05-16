@@ -8,5 +8,4 @@ if ($request_method == 'GET' && preg_match('/\/api\/comedores\/comentarios\/obte
     $id = $matches[1];
     ComentariosController::index($id);
 } 
-
 ?>

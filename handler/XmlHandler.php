@@ -1,5 +1,4 @@
 <?php
-
 class XmlHandler {
     public static function generarXml($data, $rootElement, $childElement = null) {
         $xml = new SimpleXMLElement("<$rootElement/>");

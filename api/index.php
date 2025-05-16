@@ -9,9 +9,7 @@ $request_method = $_SERVER['REQUEST_METHOD'];
 if (strpos($request_uri, '/api/comedores/') === 0) {
     // La ruta ya será manejada por empleadoRoutes.php
     // que incluimos arriba
-    DesayunoComidaRoutes::handle($request_method, $request_uri);
-    ProductoCartaRoutes::handle($request_method, $request_uri);
-    ComentariosRoutes::handle($request_method, $request_uri);
+
 }
 /* else {
     header("HTTP/1.1 404 Not Found");

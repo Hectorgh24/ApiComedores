@@ -25,5 +25,4 @@ if ($request_method == 'GET' && $request_uri === '/api/comedores/desayunos_comid
     $fecha = $matches[1];
     DesayunoComidaController::obtenerPorFechaComida($fecha);
 }
-
 ?>
