@@ -71,5 +71,4 @@ class DesayunoComida {
         return $result->fetch_assoc();
     }
 }
-
 ?>

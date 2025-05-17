@@ -6,5 +6,4 @@ class ComentariosService {
         return Comentarios::obtenerPorId($id);
     }
 }
-
 ?>

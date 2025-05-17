@@ -5,7 +5,6 @@ require_once __DIR__ . '/../../../handler/XmlHandler.php';
 class DesayunoComidaController {
 
     public static function obtenerPorFechaDesayuno($fecha) {
-        ob_start();
         $DesayunosComidas = DesayunoComidaService::obtenerPorFechaDesayuno($fecha);
         header('Content-Type: application/xml'); 
 
@@ -15,11 +14,9 @@ class DesayunoComidaController {
         }
 
         echo XmlHandler::generarXML($DesayunosComidas, 'desayunos_comidas', 'desayuno_comida');
-        ob_end_flush(); // Envía el contenido del buffer y lo limpia
     }
 
     public static function obtenerPorFechaComida($fecha) {
-        ob_start();
         $DesayunosComidas = DesayunoComidaService::obtenerPorFechaComida($fecha);
         header('Content-Type: application/xml'); 
 
@@ -29,16 +26,13 @@ class DesayunoComidaController {
         }
 
         echo XmlHandler::generarXML($DesayunosComidas, 'desayunos_comidas', 'desayuno_comida');
-        ob_end_flush(); // Envía el contenido del buffer y lo limpia
     }
 
     public static function index() {
-        ob_start();
         $DesayunosComidas = DesayunoComidaService::obtenerTodos();
         header('Content-Type: application/xml'); 
 
         echo XmlHandler::generarXML($DesayunosComidas, 'desayunos_comidas', 'desayuno_comida');
-        ob_end_flush(); // Envía el contenido del buffer y lo limpia
     }
 
     public static function show ($id) {
@@ -54,30 +48,24 @@ class DesayunoComidaController {
     }
 
     public static function obtenerDesayunos() {
-        ob_start();
         $DesayunosComidas = DesayunoComidaService::obtenerDesayunos();
         header('Content-Type: application/xml'); 
 
         echo XmlHandler::generarXML($DesayunosComidas, 'desayunos', 'desayuno');
-        ob_end_flush(); // Envía el contenido del buffer y lo limpia
     }
 
     public static function obtenerComidas() {
-        ob_start();
         $DesayunosComidas = DesayunoComidaService::obtenerComidas();
         header('Content-Type: application/xml'); 
 
         echo XmlHandler::generarXML($DesayunosComidas, 'comidas', 'comida');
-        ob_end_flush(); // Envía el contenido del buffer y lo limpia
     }
 
     public static function obtenerInformacionNutrimentales() {
-        ob_start();
         $DesayunosComidas = DesayunoComidaService::obtenerInformacionNutrimentales();
         header('Content-Type: application/xml'); 
 
         echo XmlHandler::generarXML($DesayunosComidas, 'informacion_nutrimental', 'nutrimento');
-        ob_end_flush(); // Envía el contenido del buffer y lo limpia
     }
 
     public static function obtenerInformacionNutrimentalPorId($id) {
