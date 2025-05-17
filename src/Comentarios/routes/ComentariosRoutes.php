@@ -7,5 +7,6 @@ $request_method = $_SERVER['REQUEST_METHOD'];
 if ($request_method == 'GET' && preg_match('/\/api\/comedores\/comentarios\/obtenerComentarios\/(\d+)/', $request_uri, $matches)) {
     $id = $matches[1];
     ComentariosController::index($id);
+    exit;
 } 
 ?>

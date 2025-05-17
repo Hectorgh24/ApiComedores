@@ -6,23 +6,31 @@ $request_method = $_SERVER['REQUEST_METHOD'];
 
 if ($request_method == 'GET' && $request_uri === '/api/comedores/desayunos_comidas/obtenerTodos') {
     DesayunoComidaController::index();
+    exit;
 } else if ($request_method == 'GET' && preg_match('/\/api\/comedores\/desayunos_comidas\/obtenerPorId\/(\d+)/', $request_uri, $matches)) {
     $id = $matches[1];
     DesayunoComidaController::show($id);
+    exit;
 } else if ($request_method == 'GET' && $request_uri === '/api/comedores/desayunos/obtenerDesayunos') {
     DesayunoComidaController::obtenerDesayunos();
+    exit;
 } else if ($request_method == 'GET' && $request_uri === '/api/comedores/comidas/obtenerComidas') {
     DesayunoComidaController::obtenerComidas();
+    exit;
 } else if ($request_method == 'GET' && $request_uri === '/api/comedores/informacionNutrimental/obtenerInformacionNutrimental') {
     DesayunoComidaController::obtenerInformacionNutrimentales();
+    exit;
 } else if ($request_method == 'GET' && preg_match('/\/api\/comedores\/informacionNutrimental\/obtenerInformacionNutrimentalPorId\/(\d+)/', $request_uri, $matches)) {
     $id = $matches[1];
     DesayunoComidaController::obtenerInformacionNutrimentalPorId($id);
+    exit;
 } else if ($request_method == 'GET' && preg_match('/\/api\/comedores\/desayunos_comidas\/obtenerPorFechaDesayuno\/(\d{4}-\d{2}-\d{2})/', $request_uri, $matches)) {
     $fecha = $matches[1];
     DesayunoComidaController::obtenerPorFechaDesayuno($fecha);
+    exit;
 }  else if ($request_method == 'GET' && preg_match('/\/api\/comedores\/desayunos_comidas\/obtenerPorFechaComida\/(\d{4}-\d{2}-\d{2})/', $request_uri, $matches)) {
     $fecha = $matches[1];
     DesayunoComidaController::obtenerPorFechaComida($fecha);
+    exit;
 }
 ?>
