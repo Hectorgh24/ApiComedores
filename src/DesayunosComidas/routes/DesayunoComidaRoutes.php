@@ -32,5 +32,13 @@ if ($request_method == 'GET' && $request_uri === '/api/comedores/desayunos_comid
     $fecha = $matches[1];
     DesayunoComidaController::obtenerPorFechaComida($fecha);
     exit;
+} else if ($request_method == 'GET' && preg_match('/\/api\/comedores\/informacionNutrimental\/obtenerInformacionNutrimentalDesayunoPorFecha\/(\d{4}-\d{2}-\d{2})/', $request_uri, $matches)) {
+    $fecha = $matches[1];
+    DesayunoComidaController::obtenerInformacionNutrimentalDesayunoPorFecha($fecha);
+    exit;
+} else if ($request_method == 'GET' && preg_match('/\/api\/comedores\/informacionNutrimental\/obtenerInformacionNutrimentalComidaPorFecha\/(\d{4}-\d{2}-\d{2})/', $request_uri, $matches)) {
+    $fecha = $matches[1];
+    DesayunoComidaController::obtenerInformacionNutrimentalComidaPorFecha($fecha);
+    exit;
 }
 ?>

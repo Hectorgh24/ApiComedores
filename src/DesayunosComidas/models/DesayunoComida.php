@@ -70,5 +70,27 @@ class DesayunoComida {
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+
+    public static function obtenerInformacionNutrimentalDesayunoPorFecha($fecha) {
+        global $conn;
+        $query = "SELECT kcal,hc,p,l FROM informacion_nutrimental INNER JOIN desayuno_comida ON informacion_nutrimental.id_desayuno_comida = desayuno_comida.id
+        WHERE desayuno_comida.fecha = ? AND desayuno_comida.tipo = 'desayuno'";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $fecha); // Cambiado de "d" a "s"
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public static function obtenerInformacionNutrimentalComidaPorFecha($fecha) {
+        global $conn;
+        $query = "SELECT kcal,hc,p,l FROM informacion_nutrimental INNER JOIN desayuno_comida ON informacion_nutrimental.id_desayuno_comida = desayuno_comida.id
+        WHERE desayuno_comida.fecha = ? AND desayuno_comida.tipo = 'comida'";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $fecha); // Cambiado de "d" a "s"
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
 }
 ?>

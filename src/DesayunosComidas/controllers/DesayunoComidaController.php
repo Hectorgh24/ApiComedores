@@ -79,5 +79,29 @@ class DesayunoComidaController {
             
         echo XmlHandler::generarXML($DesayunosComidas, 'informacion_nutrimental', 'nutrimento');
     }
+
+    public static function obtenerInformacionNutrimentalDesayunoPorFecha($fecha) {
+        $DesayunosComidas = DesayunoComidaService::obtenerInformacionNutrimentalDesayunoPorFecha($fecha);
+        header('Content-Type: application/xml'); 
+
+        if(!$DesayunosComidas) {
+            header("HTTP/1.1 404 Not Found");
+            echo "<error>Desayuno o comida no encontrado</error>";
+        }
+
+        echo XmlHandler::generarXML($DesayunosComidas, 'informacion_nutrimental', 'nutrimento');
+    }
+
+    public static function obtenerInformacionNutrimentalComidaPorFecha($fecha) {
+        $DesayunosComidas = DesayunoComidaService::obtenerInformacionNutrimentalComidaPorFecha($fecha);
+        header('Content-Type: application/xml'); 
+
+        if(!$DesayunosComidas) {
+            header("HTTP/1.1 404 Not Found");
+            echo "<error>Desayuno o comida no encontrado</error>";
+        }
+
+        echo XmlHandler::generarXML($DesayunosComidas, 'informacion_nutrimental', 'nutrimento');
+    }
 }
 ?>

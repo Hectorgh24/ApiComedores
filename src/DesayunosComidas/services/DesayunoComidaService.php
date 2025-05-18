@@ -34,6 +34,14 @@ class DesayunoComidaService {
     public static function obtenerInformacionNutrimentalPorId($id) {
         return DesayunoComida::obtenerInformacionNutrimentalPorId($id);
     }
+
+    public static function obtenerInformacionNutrimentalDesayunoPorFecha($fecha) {
+        return DesayunoComida::obtenerInformacionNutrimentalDesayunoPorFecha($fecha);
+    }
+
+    public static function obtenerInformacionNutrimentalComidaPorFecha($fecha) {
+        return DesayunoComida::obtenerInformacionNutrimentalComidaPorFecha($fecha);
+    }
    
 }
 ?>
