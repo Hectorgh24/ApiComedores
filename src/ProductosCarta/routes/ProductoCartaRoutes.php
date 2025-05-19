@@ -32,5 +32,8 @@ if ($request_method == 'GET' && $request_uri === '/api/comedores/producto_carta/
 } else if ($request_method == 'GET' && $request_uri === '/api/comedores/producto_carta/obtenerOtros') {
     ProductoCartaController::obtenerOtros();
     exit;
+} else if ($request_method == 'POST' && $request_uri === '/api/comedores/producto_carta/crear') {
+    ProductoCartaController::crear();
+    exit;
 }
 ?>

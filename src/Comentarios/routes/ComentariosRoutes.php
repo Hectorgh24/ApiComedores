@@ -9,4 +9,10 @@ if ($request_method == 'GET' && preg_match('/\/api\/comedores\/comentarios\/obte
     ComentariosController::index($id);
     exit;
 } 
+
+// Ruta para crear comentario
+if ($request_method == 'POST' && $request_uri == '/api/comedores/comentarios/crear') {
+    ComentariosController::crear();
+    exit;
+}
 ?>

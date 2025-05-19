@@ -103,5 +103,128 @@ class DesayunoComidaController {
 
         echo XmlHandler::generarXML($DesayunosComidas, 'informacion_nutrimental', 'nutrimento');
     }
+
+    public static function crear() {
+        // Verificar que sea una solicitud POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("HTTP/1.1 405 Method Not Allowed");
+            header('Content-Type: application/xml');
+            echo "<e>Método no permitido</e>";
+            return;
+        }
+        
+        // Obtener los datos enviados
+        $datosPost = file_get_contents('php://input');
+        $xml = simplexml_load_string($datosPost);
+        
+        if ($xml === false) {
+            header("HTTP/1.1 400 Bad Request");
+            header('Content-Type: application/xml');
+            echo "<e>XML inválido</e>";
+            return;
+        }
+        
+        // Convertir XML a array
+        $datos = json_decode(json_encode($xml), true);
+        
+        // Validar datos requeridos
+        if (!isset($datos['tipo']) || !isset($datos['fecha']) || 
+            !isset($datos['descripcion']) || !isset($datos['img_url'])) {
+            header("HTTP/1.1 400 Bad Request");
+            header('Content-Type: application/xml');
+            echo "<e>Faltan datos requeridos</e>";
+            return;
+        }
+        
+        // Validar tipo
+        if ($datos['tipo'] != 'desayuno' && $datos['tipo'] != 'comida') {
+            header("HTTP/1.1 400 Bad Request");
+            header('Content-Type: application/xml');
+            echo "<e>El tipo debe ser 'desayuno' o 'comida'</e>";
+            return;
+        }
+        
+        // Validar formato de fecha (YYYY-MM-DD)
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $datos['fecha'])) {
+            header("HTTP/1.1 400 Bad Request");
+            header('Content-Type: application/xml');
+            echo "<e>El formato de fecha debe ser YYYY-MM-DD</e>";
+            return;
+        }
+        
+        // Crear el desayuno/comida
+        $resultado = DesayunoComidaService::crearDesayunoComida($datos);
+        
+        header('Content-Type: application/xml');
+        if (isset($resultado['error'])) {
+            header("HTTP/1.1 500 Internal Server Error");
+            echo "<e>" . $resultado['error'] . "</e>";
+        } else {
+            echo XmlHandler::generarXML($resultado, 'respuesta');
+        }
+    }
+
+    public static function crearInformacionNutrimental() {
+        // Verificar que sea una solicitud POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("HTTP/1.1 405 Method Not Allowed");
+            header('Content-Type: application/xml');
+            echo "<e>Método no permitido</e>";
+            return;
+        }
+        
+        // Obtener los datos enviados
+        $datosPost = file_get_contents('php://input');
+        $xml = simplexml_load_string($datosPost);
+        
+        if ($xml === false) {
+            header("HTTP/1.1 400 Bad Request");
+            header('Content-Type: application/xml');
+            echo "<e>XML inválido</e>";
+            return;
+        }
+        
+        // Convertir XML a array
+        $datos = json_decode(json_encode($xml), true);
+        
+        // Validar datos requeridos
+        if (!isset($datos['id_desayuno_comida']) || !isset($datos['kcal']) || 
+            !isset($datos['hc']) || !isset($datos['p']) || !isset($datos['l'])) {
+            header("HTTP/1.1 400 Bad Request");
+            header('Content-Type: application/xml');
+            echo "<e>Faltan datos requeridos</e>";
+            return;
+        }
+        
+        // Validar que los valores sean enteros positivos
+        if (!is_numeric($datos['id_desayuno_comida']) || intval($datos['id_desayuno_comida']) <= 0 ||
+            !is_numeric($datos['kcal']) || intval($datos['kcal']) < 0 ||
+            !is_numeric($datos['hc']) || intval($datos['hc']) < 0 ||
+            !is_numeric($datos['p']) || intval($datos['p']) < 0 ||
+            !is_numeric($datos['l']) || intval($datos['l']) < 0) {
+            header("HTTP/1.1 400 Bad Request");
+            header('Content-Type: application/xml');
+            echo "<e>Los valores nutricionales deben ser números enteros positivos y el id_desayuno_comida debe ser un entero válido</e>";
+            return;
+        }
+        
+        // Convertir valores a enteros
+        $datos['kcal'] = intval($datos['kcal']);
+        $datos['hc'] = intval($datos['hc']);
+        $datos['p'] = intval($datos['p']);
+        $datos['l'] = intval($datos['l']);
+        $datos['id_desayuno_comida'] = intval($datos['id_desayuno_comida']);
+        
+        // Crear la información nutrimental
+        $resultado = DesayunoComidaService::crearInformacionNutrimental($datos);
+        
+        header('Content-Type: application/xml');
+        if (isset($resultado['error'])) {
+            header("HTTP/1.1 500 Internal Server Error");
+            echo "<e>" . $resultado['error'] . "</e>";
+        } else {
+            echo XmlHandler::generarXML($resultado, 'respuesta');
+        }
+    }
 }
 ?>

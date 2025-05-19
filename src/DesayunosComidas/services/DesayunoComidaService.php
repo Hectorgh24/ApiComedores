@@ -43,5 +43,12 @@ class DesayunoComidaService {
         return DesayunoComida::obtenerInformacionNutrimentalComidaPorFecha($fecha);
     }
    
+    public static function crearDesayunoComida($datos) {
+        return DesayunoComida::crear($datos);
+    }
+    
+    public static function crearInformacionNutrimental($datos) {
+        return DesayunoComida::crearInformacionNutrimental($datos);
+    }
 }
 ?>

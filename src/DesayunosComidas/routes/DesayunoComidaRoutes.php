@@ -40,5 +40,11 @@ if ($request_method == 'GET' && $request_uri === '/api/comedores/desayunos_comid
     $fecha = $matches[1];
     DesayunoComidaController::obtenerInformacionNutrimentalComidaPorFecha($fecha);
     exit;
+} else if ($request_method == 'POST' && $request_uri === '/api/comedores/desayunos_comidas/crear') {
+    DesayunoComidaController::crear();
+    exit;
+} else if ($request_method == 'POST' && $request_uri === '/api/comedores/informacionNutrimental/crear') {
+    DesayunoComidaController::crearInformacionNutrimental();
+    exit;
 }
 ?>

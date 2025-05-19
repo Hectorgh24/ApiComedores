@@ -5,5 +5,9 @@ class ComentariosService {
     public static function obtenerComentarios($id) {
         return Comentarios::obtenerPorId($id);
     }
+    
+    public static function crearComentario($datos) {
+        return Comentarios::crear($datos);
+    }
 }
 ?>

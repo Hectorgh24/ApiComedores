@@ -68,5 +68,28 @@ class ProductoCarta{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public static function crear($datos) {
+        global $conn;
+        $query = "INSERT INTO producto_carta (id_categoria, nombre, descripcion, precio, img_url) 
+                  VALUES (?, ?, ?, ?, ?)";
+        
+        $stmt = $conn->prepare($query);
+        $descripcion = isset($datos['descripcion']) ? $datos['descripcion'] : null;
+        
+        $stmt->bind_param("issds", 
+            $datos['id_categoria'],
+            $datos['nombre'], 
+            $descripcion,
+            $datos['precio'], 
+            $datos['img_url']
+        );
+        
+        if ($stmt->execute()) {
+            $nuevoId = $conn->insert_id;
+            return ["id" => $nuevoId, "mensaje" => "Producto de carta creado correctamente"];
+        } else {
+            return ["error" => "Error al crear el producto de carta: " . $conn->error];
+        }
+    }
 }
 ?>

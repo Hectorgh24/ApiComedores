@@ -92,5 +92,48 @@ class DesayunoComida {
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+
+    public static function crear($datos) {
+        global $conn;
+        $query = "INSERT INTO desayuno_comida (tipo, fecha, descripcion, img_url) 
+                  VALUES (?, ?, ?, ?)";
+        
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ssss", 
+            $datos['tipo'],
+            $datos['fecha'],
+            $datos['descripcion'], 
+            $datos['img_url']
+        );
+        
+        if ($stmt->execute()) {
+            $nuevoId = $conn->insert_id;
+            return ["id" => $nuevoId, "mensaje" => "DesayunoComida creado correctamente"];
+        } else {
+            return ["error" => "Error al crear el DesayunoComida: " . $conn->error];
+        }
+    }
+
+    public static function crearInformacionNutrimental($datos) {
+        global $conn;
+        $query = "INSERT INTO informacion_nutrimental (id_desayuno_comida, kcal, hc, p, l) 
+                  VALUES (?, ?, ?, ?, ?)";
+        
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("iiiii", 
+            $datos['id_desayuno_comida'],
+            $datos['kcal'], 
+            $datos['hc'], 
+            $datos['p'],
+            $datos['l']
+        );
+        
+        if ($stmt->execute()) {
+            $nuevoId = $conn->insert_id;
+            return ["id" => $nuevoId, "mensaje" => "Información nutricional creada correctamente"];
+        } else {
+            return ["error" => "Error al crear la información nutricional: " . $conn->error];
+        }
+    }
 }
 ?>
