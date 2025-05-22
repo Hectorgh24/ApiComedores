@@ -25,49 +25,49 @@ class ProductoCartaController {
         $productoCarta = ProductoCartaService::obtenerPlatillos();
         header('Content-Type: application/xml'); 
 
-        echo XmlHandler::generarXML($productoCarta, 'platillos', 'platillo');
+        echo XmlHandler::generarXML($productoCarta, 'producto_carta', 'platillo');
     }
 
     public static function obtenerSandwichesTortas() {
         $productoCarta = ProductoCartaService::obtenerSandwichesTortas();
         header('Content-Type: application/xml'); 
 
-        echo XmlHandler::generarXML($productoCarta, 'sandwiches_tortas', 'sandwich_torta');
+        echo XmlHandler::generarXML($productoCarta, 'producto_carta', 'sandwich_torta');
     }
 
     public static function obtenerSugerenciaChef() {
         $productoCarta = ProductoCartaService::obtenerSugerenciaChef();
         header('Content-Type: application/xml'); 
 
-        echo XmlHandler::generarXML($productoCarta, 'sugerencia_chef', 'sugerencia');
+        echo XmlHandler::generarXML($productoCarta, 'producto_carta', 'sugerencia');
     }
 
     public static function obtenerPostres() {
         $productoCarta = ProductoCartaService::obtenerPostres();
         header('Content-Type: application/xml'); 
 
-        echo XmlHandler::generarXML($productoCarta, 'postres', 'postre');
+        echo XmlHandler::generarXML($productoCarta, 'producto_carta', 'postre');
     }
 
     public static function obtenerBebidas() {
         $productoCarta = ProductoCartaService::obtenerBebidas();
         header('Content-Type: application/xml'); 
 
-        echo XmlHandler::generarXML($productoCarta, 'bebidas', 'bebida');
+        echo XmlHandler::generarXML($productoCarta, 'producto_carta', 'bebida');
     }
 
     public static function obtenerIngredienteExtra() {
         $productoCarta = ProductoCartaService::obtenerIngredienteExtra();
         header('Content-Type: application/xml'); 
 
-        echo XmlHandler::generarXML($productoCarta, 'ingredientes_extra', 'ingrediente_extra');
+        echo XmlHandler::generarXML($productoCarta, 'producto_carta', 'ingrediente_extra');
     }
 
     public static function obtenerOtros() {
         $productoCarta = ProductoCartaService::obtenerOtros();
         header('Content-Type: application/xml'); 
 
-        echo XmlHandler::generarXML($productoCarta, 'otros', 'otro');
+        echo XmlHandler::generarXML($productoCarta, 'producto_carta', 'otro');
    }
 
     public static function crear() {
