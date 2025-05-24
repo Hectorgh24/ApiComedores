@@ -135,5 +135,82 @@ class DesayunoComida {
             return ["error" => "Error al crear la información nutricional: " . $conn->error];
         }
     }
+
+    /**
+     * Elimina un elemento de la tabla desayuno_comida
+     * @param $id
+     * @return array<string, string> claves 'estado' y 'mensaje'
+     */
+    public static function eliminar($id) {
+        global $conn;
+        $query = "DELETE FROM desayuno_comida WHERE id = ?";
+
+        try {
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("i", $id);
+            if ($stmt->execute()) {
+                if ($stmt->affected_rows > 0) {
+                    return [
+                        "estado" => "true",
+                        "mensaje" => "Elemento eliminado correctamente."
+                    ];
+                } else {
+                    return [
+                        "estado" => "false",
+                        "mensaje" => "No se encontró el elemento con id: {$id}"
+                    ];
+                }
+            } else {
+                return [
+                    "estado" => "false",
+                    "mensaje" => "Error al eliminar el elemento: {$conn->error}"
+                ];
+            }
+        } catch (Exception $e) {
+            return [
+                "estado" => "false",
+                "mensaje" => "Excepción inesperada: {$e->getMessage()}"
+            ];
+        }
+    }
+
+    /**
+     * Modifica un elemento de la tabla desayuno_comida
+     * @param $id
+     * @param $datos
+     * @return array<string, string> claves 'estado' y 'mensaje'
+     */
+    public static function modificar($datos) {
+        global $conn;
+        $query = "UPDATE desayuno_comida SET tipo = ?, fecha = ?, descripcion = ?, img_url = ? WHERE id = ?";
+
+        try {
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ssssi",
+                $datos['tipo'],
+                $datos['fecha'],
+                $datos['descripcion'],
+                $datos['img_url'],
+                $datos['id']
+            );
+
+            if ($stmt->execute()) {
+                if ($stmt->affected_rows > 0) {
+                    return ["estado" => "true", "mensaje" => "Elemento con id: {$datos['id']} modificado correctamente."];
+                } else {
+                    return ["estado" => "false" ,"mensaje" => "No se encontró el elemento con id: {$datos['id']}"];
+                }
+            } else {
+                return ["error" => "Error al modificar el elemento: " . $conn->error];
+            }
+
+        } catch (Exception $e) {
+            return [
+                "estado" => "false",
+                "mensaje" => "Excepción inesperada: {$e->getMessage()}"
+            ];
+        }
+    }
+
 }
 ?>

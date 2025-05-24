@@ -46,5 +46,12 @@ if ($request_method == 'GET' && $request_uri === '/api/comedores/desayunos_comid
 } else if ($request_method == 'POST' && $request_uri === '/api/comedores/informacionNutrimental/crear') {
     DesayunoComidaController::crearInformacionNutrimental();
     exit;
+} else if ($request_method == 'DELETE' && preg_match('/\/api\/comedores\/desayunos_comidas\/eliminar\/(\d+)/', $request_uri, $matches)) {
+    $id = $matches[1];
+    DesayunoComidaController::eliminar($id);
+    exit;
+} else if ($request_method == 'PUT' && $request_uri === '/api/comedores/desayunos_comidas/modificar') {
+    DesayunoComidaController::modificar();
+    exit;
 }
 ?>

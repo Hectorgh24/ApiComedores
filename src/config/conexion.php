@@ -1,7 +1,9 @@
 <?php
-$host = "localhost";
 $user = "rootapi";
 $password = "password";
+#$user = "root";
+#$password = "P@ssw0rd";
+$host = "localhost";
 $database = "comedoresuv";
 
 $conn = new mysqli($host, $user, $password, $database);

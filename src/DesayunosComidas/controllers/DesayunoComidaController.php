@@ -226,5 +226,83 @@ class DesayunoComidaController {
             echo XmlHandler::generarXML($resultado, 'respuesta');
         }
     }
+
+    public static function eliminar($id) {
+        header('Content-Type: application/xml; charset=utf-8');
+
+        // Es una solicitud DELETE?
+        if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+            header("HTTP/1.1 405 Method Not Allowed");
+            echo "<e>Método no permitido</e>";
+            return;
+        }
+
+        // Eliminar el desayuno/comida
+        $resultado = DesayunoComidaService::eliminar($id);
+
+        // Verificar si hubo un error
+        if ($resultado['estado']  === 'false') {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>{$resultado['mensaje']}</e>";
+        } else {
+            echo XmlHandler::generarXML($resultado, 'respuesta');
+        }
+        return;
+    }
+
+    public static function modificar() {
+        header('Content-Type: application/xml; charset=utf-8');
+
+        // Es una petición PUT?
+        if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
+            header("HTTP/1.1 405 Method Not Allowed");
+            echo "<e>Método no permitido</e>";
+            return;
+        }
+
+        // Obtener los datos del body
+        $datosPost = file_get_contents('php://input');
+
+        // Convertir datos en un objeto xml
+        $xml = simplexml_load_string($datosPost);
+
+        // Verifica si el xml parseo con exito
+        if ($xml === false) {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>XML inválido</e>";
+            return;
+        }
+
+        // Convierte datos xml en array asociativo
+        $datos = json_decode(json_encode($xml), true);
+
+        // Validar datos requeridos
+        if (!isset($datos['tipo']) || !isset($datos['fecha']) ||
+            !isset($datos['descripcion']) || !isset($datos['img_url'])) {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>Faltan datos requeridos</e>";
+            return;
+        }
+
+        // Validar formato de fecha (YYYY-MM-DD)
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $datos['fecha'])) {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>El formato de fecha debe ser YYYY-MM-DD</e>";
+            return;
+        }
+
+        // Modificar el deayuno/comida
+        $resultado = DesayunoComidaService::modificar($datos);
+
+        // Verificar si hubo un error
+        if($resultado['estado'] === 'false') {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>{$resultado['mensaje']}</e>";
+        } else {
+            echo XmlHandler::generarXML($resultado, 'respuesta');
+        }
+        return;
+
+    }
 }
 ?>
