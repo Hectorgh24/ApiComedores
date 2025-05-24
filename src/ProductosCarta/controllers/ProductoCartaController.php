@@ -132,5 +132,89 @@ class ProductoCartaController {
             echo XmlHandler::generarXML($resultado, 'respuesta');
         }
     }
+
+    public static function eliminar($id) {
+        header('Content-Type: application/xml; charset=utf-8');
+
+        // Verificar que sea una solicitud DELETE
+        if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+            header("HTTP/1.1 405 Method Not Allowed");
+            echo "<e>Método no permitido</e>";
+            return;
+        }
+
+        // Validar que el ID sea un número entero positivo
+        if (!is_numeric($id) || intval($id) <= 0) {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>El ID debe ser un número entero positivo</e>";
+            return;
+        }
+
+        // Eliminar el producto de carta
+        $resultado = ProductoCartaService::eliminar($id);
+
+        if (isset($resultado['error'])) {
+            header("HTTP/1.1 404 Not Found");
+            echo "<e>{$resultado['error']}</e>";
+        } else {
+            echo XmlHandler::generarXML($resultado, 'respuesta');
+        }
+        return;
+    }
+
+    public static function modificar() {
+        header('Content-Type: application/xml; charset=utf-8');
+
+        // Verificar que sea una solicitud PUT
+        if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
+            header("HTTP/1.1 405 Method Not Allowed");
+            echo "<e>Método no permitido</e>";
+            return;
+        }
+
+        // Obtener los datos enviados
+        $datosPost = file_get_contents('php://input');
+        $xml = simplexml_load_string($datosPost);
+
+        if ($xml === false) {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>XML inválido</e>";
+            return;
+        }
+
+        // Convertir XML a array
+        $datos = json_decode(json_encode($xml), true);
+
+        // Validar que el ID sea un número entero positivo
+        if (!is_numeric($datos['id']) || intval($datos['id']) <= 0) {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>El ID debe ser un número entero positivo</e>";
+            return;
+        }
+
+        // Validar datos requeridos
+        if (!isset($datos['nombre']) || !isset($datos['precio']) || !isset($datos['id_categoria']) || !isset($datos['img_url'])) {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>Faltan datos requeridos</e>";
+            return;
+        }
+
+        // Convertir $datos['precio'] en float de dos digitos
+        $datos['precio'] = number_format(floatval($datos['precio']), 2, '.', '');
+
+        // Asegurar que id_categoria sea un entero
+        $datos['id_categoria'] = intval($datos['id_categoria']);
+
+        // Modificar el producto de carta
+        $resultado = ProductoCartaService::modificar($datos);
+
+        if ($resultado['estado'] == 'false') {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>{$resultado['mensaje']}</e>";
+        } else {
+            echo XmlHandler::generarXML($resultado, 'respuesta');
+        }
+        return;
+    }
 }
 ?>

@@ -53,5 +53,8 @@ if ($request_method == 'GET' && $request_uri === '/api/comedores/desayunos_comid
 } else if ($request_method == 'PUT' && $request_uri === '/api/comedores/desayunos_comidas/modificar') {
     DesayunoComidaController::modificar();
     exit;
+} else if ($request_method == 'PUT' && $request_uri === '/api/comedores/informacionNutrimental/modificar') {
+    DesayunoComidaController::modificarInformacionNutrimental();
+    exit;
 }
 ?>

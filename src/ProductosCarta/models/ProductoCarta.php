@@ -91,5 +91,89 @@ class ProductoCarta{
             return ["error" => "Error al crear el producto de carta: " . $conn->error];
         }
     }
+
+    /**
+     * Elimina un producto de carta por su ID.
+     * @param $id
+     * @return array<string, string> claves 'estado' y 'mensaje'
+     */
+    public static function eliminar($id) {
+        global $conn;
+        $query = "DELETE FROM producto_carta WHERE id = ?";
+
+        try {
+            $stmt = $conn->prepare($query);
+            if (!$stmt) {
+                throw new Exception("Error al preparar la consulta: " . $conn->error);
+            }
+            $stmt->bind_param("i", $id);
+            if (!$stmt->execute()) {
+                throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+            }
+            if ($stmt->affected_rows > 0) {
+                return [
+                    "estado" => "true",
+                    "mensaje" => "Producto de carta eliminado correctamente"
+                ];
+            } else {
+                return [
+                    "estado" => "false",
+                    "mensaje" => "No se encontró el producto de carta con ID: " . $id
+                ];
+            }
+        } catch (Exception $e) {
+            return [
+                "estado" => "false",
+                "mensaje" => $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Modifica un producto de carta por su ID.
+     * @param $datos
+     * @return array<string, string> claves 'estado' y 'mensaje'
+     */
+    public static function modificar($datos) {
+        global $conn;
+        $query = "UPDATE producto_carta SET id_categoria = ?, nombre = ?, descripcion = ?, precio = ?, img_url = ? WHERE id = ?";
+        try {
+            $stmt = $conn->prepare($query);
+            if (!$stmt) {
+                throw new Exception("Error al preparar la consulta: " . $conn->error);
+            }
+            $descripcion = isset($datos['descripcion']) ? $datos['descripcion'] : null;
+
+            $stmt->bind_param("issdsi",
+                $datos['id_categoria'],
+                $datos['nombre'],
+                $descripcion,
+                $datos['precio'],
+                $datos['img_url'],
+                $datos['id']
+            );
+
+            if (!$stmt->execute()) {
+                throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+            }
+
+            if ($stmt->affected_rows > 0) {
+                return [
+                    "estado" => "true",
+                    "mensaje" => "Producto de carta id: {$datos['id']} modificado correctamente."
+                ];
+            } else {
+                return [
+                    "estado" => "false",
+                    "mensaje" => "No se encontró el producto de carta con id: {$datos['id']}"
+                ];
+            }
+        } catch (Exception $e) {
+            return [
+                "estado" => "false",
+                "mensaje" => $e->getMessage()
+            ];
+        }
+    }
 }
 ?>

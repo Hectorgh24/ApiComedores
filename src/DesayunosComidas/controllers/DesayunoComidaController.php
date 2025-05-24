@@ -302,7 +302,60 @@ class DesayunoComidaController {
             echo XmlHandler::generarXML($resultado, 'respuesta');
         }
         return;
+    }
 
+    public static function modificarInformacionNutrimental(){
+        header('Content-Type: application/xml; charset=utf-8');
+
+        // Es una petición PUT?
+        if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
+            header("HTTP/1.1 405 Method Not Allowed");
+            echo "<e>Método no permitido</e>";
+            return;
+        }
+
+        // Obtener los datos del body
+        $datosPost = file_get_contents('php://input');
+
+        // Convertir datos en un objeto xml
+        $xml = simplexml_load_string($datosPost);
+
+        // Verifica si el xml parseo con exito
+        if ($xml === false) {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>XML inválido</e>";
+            return;
+        }
+
+        // Convierte datos xml en array asociativo
+        $datos = json_decode(json_encode($xml), true);
+
+        // Validar datos requeridos
+        if (!isset($datos['id_desayuno_comida']) || !isset($datos['kcal']) ||
+            !isset($datos['hc']) || !isset($datos['p']) || !isset($datos['l'])) {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>Faltan datos requeridos</e>";
+            return;
+        }
+
+        // Convertir valores a enteros
+        $datos['kcal'] = intval($datos['kcal']);
+        $datos['hc'] = intval($datos['hc']);
+        $datos['p'] = intval($datos['p']);
+        $datos['l'] = intval($datos['l']);
+        $datos['id_desayuno_comida'] = intval($datos['id_desayuno_comida']);
+
+        // Modificar la información nutrimental
+        $resultado = DesayunoComidaService::modificarInformacionNutrimental($datos);
+
+        // Verificar si hubo un error
+        if($resultado['estado'] === 'false') {
+            header("HTTP/1.1 400 Bad Request");
+            echo "<e>{$resultado['mensaje']}</e>";
+        } else {
+            echo XmlHandler::generarXML($resultado, 'respuesta');
+        }
+        return;
     }
 }
 ?>

@@ -41,5 +41,13 @@ class ProductoCartaService {
     public static function crearProductoCarta($datos) {
         return ProductoCarta::crear($datos);
     }
+
+    public static function modificar($datos) {
+        return ProductoCarta::modificar($datos);
+    }
+
+    public static function eliminar($id) {
+        return ProductoCarta::eliminar($id);
+    }
 }
 ?>

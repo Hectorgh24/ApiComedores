@@ -93,6 +93,43 @@ class DesayunoComida {
         return $result->fetch_assoc();
     }
 
+    public static function modificarInformacionNutrimental($datos) {
+        global $conn;
+        $query = "UPDATE informacion_nutrimental SET kcal = ?, hc = ?, p = ?, l = ? WHERE id_desayuno_comida = ?";
+
+        try {
+            $stmt = $conn->prepare($query);
+
+            if(!$stmt) {
+                throw new Exception("Error en la preparación de la consulta: " . $conn->error);
+            }
+
+            $stmt->bind_param("iiiii",
+                $datos['kcal'],
+                $datos['hc'],
+                $datos['p'],
+                $datos['l'],
+                $datos['id_desayuno_comida']
+            );
+
+            if (!$stmt->execute()) {
+                throw new Exception("Error al modificar la información nutricional: " . $stmt->error);
+            }
+
+            if ($stmt->affected_rows > 0) {
+                return ["estado" => "true", "mensaje" => "Información nutricional modificada correctamente."];
+            } else {
+                return ["estado" => "false", "mensaje" => "No se encontró la información nutricional con id: {$datos['id_desayuno_comida']}"];
+            }
+
+        } catch (Exception $e) {
+            return [
+                "estado" => "false",
+                "mensaje" => "Error: {$e->getMessage()}"
+            ];
+        }
+    }
+
     public static function crear($datos) {
         global $conn;
         $query = "INSERT INTO desayuno_comida (tipo, fecha, descripcion, img_url) 
@@ -169,7 +206,7 @@ class DesayunoComida {
         } catch (Exception $e) {
             return [
                 "estado" => "false",
-                "mensaje" => "Excepción inesperada: {$e->getMessage()}"
+                "mensaje" => "Error: {$e->getMessage()}"
             ];
         }
     }
@@ -207,7 +244,7 @@ class DesayunoComida {
         } catch (Exception $e) {
             return [
                 "estado" => "false",
-                "mensaje" => "Excepción inesperada: {$e->getMessage()}"
+                "mensaje" => "Error: {$e->getMessage()}"
             ];
         }
     }

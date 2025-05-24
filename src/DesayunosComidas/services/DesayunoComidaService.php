@@ -58,5 +58,9 @@ class DesayunoComidaService {
     public static function modificar($datos) {
         return DesayunoComida::modificar($datos);
     }
+
+    public static function modificarInformacionNutrimental($datos) {
+        return DesayunoComida::modificarInformacionNutrimental($datos);
+    }
 }
 ?>

@@ -35,5 +35,12 @@ if ($request_method == 'GET' && $request_uri === '/api/comedores/producto_carta/
 } else if ($request_method == 'POST' && $request_uri === '/api/comedores/producto_carta/crear') {
     ProductoCartaController::crear();
     exit;
+} else if ($request_method == 'PUT' && $request_uri === '/api/comedores/producto_carta/modificar') {
+    ProductoCartaController::modificar();
+    exit;
+} else if ($request_method == 'DELETE' && preg_match('/\/api\/comedores\/producto_carta\/eliminar\/(\d+)/', $request_uri, $matches)) {
+    $id = $matches[1];
+    ProductoCartaController::eliminar($id);
+    exit;
 }
 ?>
