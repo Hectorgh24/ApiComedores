@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar platillos - API Comedores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/material.css">
+</head>
+<body>
+    <div class="container">
+
+        <h1>Visualizar platillos</h1>
+
+        <a href="index.html" class="nav-link">← Volver al menú principal</a>
+        
+        <div class="card">
+            <div class="toggle-buttons">
+                <button id="btnDesayunos" class="btn btn-primary active">Desayunos</button>
+                <button id="btnComidas" class="btn btn-secondary">Comidas</button>
+            </div>
+            
+            <div class="filtros-container">
+                <div class="filtros-title">
+                    <h3>Ordenar por</h3>
+                    <p class="filtros-help">Selecciona un criterio de ordenamiento:</p>
+                </div>
+                
+                <div class="filtros-grupos">
+                    <div class="filtro-grupo">
+                        <label>Ordenar por fecha:</label>
+                        <div class="toggle-buttons filtro-buttons">
+                            <button id="btnFechaAsc" class="btn btn-filter">Ascendente</button>
+                            <button id="btnFechaDesc" class="btn btn-filter active">Descendente</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filtro-grupo">
+                        <label>Ordenar por ID:</label>
+                        <div class="toggle-buttons filtro-buttons">
+                            <button id="btnIdAsc" class="btn btn-filter active">Ascendente</button>
+                            <button id="btnIdDesc" class="btn btn-filter">Descendente</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="loading-container" id="loadingContainer" style="display: none;">
+                <p>Cargando platillos...</p>
+            </div>
+            
+            <div class="error-container" id="errorContainer" style="display: none;">
+                <div class="alert alert-error">
+                    <p id="errorMessage"></p>
+                </div>
+            </div>
+            
+            <div class="platillos-container" id="platillosContainer">
+                <!-- Los platillos se cargarán dinámicamente aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/visualizar-platillos.js"></script>
+</body>
+</html> 

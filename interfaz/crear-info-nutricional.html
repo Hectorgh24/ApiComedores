@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear información nutricional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/material.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Crear información nutricional</h1>
+        
+        <a href="index.html" class="nav-link">← Volver al menú principal</a>
+        
+        <div class="card">
+            <form id="formInfoNutricional">
+                <h2>Formulario para agregar información nutricional</h2>
+                
+                <div class="form-group">
+                    <label for="id_desayuno_comida">ID del desayuno/comida:</label>
+                    <input type="number" id="id_desayuno_comida" name="id_desayuno_comida" min="1" placeholder="Ej: 8" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="kcal">Kilocalorías (kcal):</label>
+                    <input type="number" id="kcal" name="kcal" min="0" step="0.1" placeholder="Ej: 650" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hc">Hidratos de Carbono (g):</label>
+                    <input type="number" id="hc" name="hc" min="0" step="0.1" placeholder="Ej: 45" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="p">Proteínas (g):</label>
+                    <input type="number" id="p" name="p" min="0" step="0.1" placeholder="Ej: 22" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="l">Lípidos (g):</label>
+                    <input type="number" id="l" name="l" min="0" step="0.1" placeholder="Ej: 15" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Crear información nutricional</button>
+            </form>
+        </div>
+        
+        <div id="resultado" class="card" style="display: none;"></div>
+    </div>
+    
+    <script src="js/crear-info-nutricional.js"></script>
+</body>
+</html> 
