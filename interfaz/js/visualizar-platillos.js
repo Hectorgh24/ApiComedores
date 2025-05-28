@@ -7,9 +7,15 @@ class VisualizadorPlatillos {
         
         this.tipoActual = 'desayunos';
         this.platillos = [];
+        this.platillosOriginales = []; // Para almacenar todos los platillos sin filtros
         this.filtroActivo = 'fecha'; // 'fecha' o 'id'
         this.ordenFecha = 'desc'; // Descendente por defecto
         this.ordenId = 'asc'; // Ascendente por defecto
+        
+        // Inicializar el estado del filtro de rango de fechas
+        this.filtroRangoActivo = false;
+        this.fechaInicio = null;
+        this.fechaFin = null;
         
         this.initEventListeners();
         this.cargarPlatillos('desayunos');
@@ -54,6 +60,113 @@ class VisualizadorPlatillos {
             this.cambiarFiltroActivo('id');
             this.cambiarOrdenId('desc');
         });
+        
+        // Eventos para el filtro de rango de fechas
+        const btnAplicarFiltro = document.getElementById('btnAplicarFiltro');
+        const btnLimpiarFiltro = document.getElementById('btnLimpiarFiltro');
+        
+        btnAplicarFiltro.addEventListener('click', () => {
+            this.aplicarFiltroRangoFechas();
+        });
+        
+        btnLimpiarFiltro.addEventListener('click', () => {
+            this.limpiarFiltroRangoFechas();
+        });
+    }
+    
+    aplicarFiltroRangoFechas() {
+        const fechaInicio = document.getElementById('fechaInicio').value;
+        const fechaFin = document.getElementById('fechaFin').value;
+        
+        // Validar que ambas fechas estén seleccionadas
+        if (!fechaInicio || !fechaFin) {
+            alert('Debe seleccionar tanto la fecha inicial como la fecha final para aplicar el filtro');
+            return;
+        }
+        
+        // Convertir a objetos Date para comparación
+        const fechaInicioObj = new Date(fechaInicio);
+        const fechaFinObj = new Date(fechaFin);
+        
+        // Validar que la fecha inicial no sea posterior a la fecha final
+        if (fechaInicioObj > fechaFinObj) {
+            alert('La fecha inicial no puede ser posterior a la fecha final');
+            return;
+        }
+        
+        this.fechaInicio = fechaInicioObj;
+        this.fechaFin = fechaFinObj;
+        this.filtroRangoActivo = true;
+        
+        // Actualizar la UI para mostrar que el filtro está activo
+        const btnAplicarFiltro = document.getElementById('btnAplicarFiltro');
+        const btnLimpiarFiltro = document.getElementById('btnLimpiarFiltro');
+        
+        btnAplicarFiltro.classList.add('active');
+        btnLimpiarFiltro.classList.remove('active');
+        
+        // Aplicar el estilo de filtro activo al grupo de rango de fechas
+        this.actualizarEstiloFiltroRangoFechas(true);
+        
+        // Aplicar el filtro
+        this.filtrarPorRangoFechas();
+    }
+    
+    limpiarFiltroRangoFechas() {
+        // Limpiar los campos de fecha
+        document.getElementById('fechaInicio').value = '';
+        document.getElementById('fechaFin').value = '';
+        
+        // Restablecer el estado del filtro
+        this.filtroRangoActivo = false;
+        this.fechaInicio = null;
+        this.fechaFin = null;
+        
+        // Actualizar la UI para mostrar que el filtro no está activo
+        const btnAplicarFiltro = document.getElementById('btnAplicarFiltro');
+        const btnLimpiarFiltro = document.getElementById('btnLimpiarFiltro');
+        
+        btnAplicarFiltro.classList.remove('active');
+        btnLimpiarFiltro.classList.add('active');
+        
+        // Quitar el estilo de filtro activo al grupo de rango de fechas
+        this.actualizarEstiloFiltroRangoFechas(false);
+        
+        // Restaurar los platillos originales y aplicar solo el ordenamiento
+        this.platillos = [...this.platillosOriginales];
+        this.ordenarYMostrarPlatillos();
+    }
+    
+    actualizarEstiloFiltroRangoFechas(activo) {
+        // Obtener el grupo de filtro de rango de fechas (tercer grupo)
+        const grupoRangoFechas = document.querySelector('.filtros-grupos .filtro-grupo:nth-child(3)');
+        
+        if (activo) {
+            grupoRangoFechas.classList.add('filtro-rango-activo');
+        } else {
+            grupoRangoFechas.classList.remove('filtro-rango-activo');
+        }
+    }
+    
+    filtrarPorRangoFechas() {
+        if (!this.filtroRangoActivo || !this.fechaInicio || !this.fechaFin) {
+            // Si el filtro no está activo o faltan fechas, mostrar todos los platillos
+            this.platillos = [...this.platillosOriginales];
+        } else {
+            // Filtrar los platillos por rango de fechas
+            this.platillos = this.platillosOriginales.filter(platillo => {
+                const fechaPlatillo = new Date(platillo.fecha);
+                
+                // Ajustar fechaFin para incluir todo el día
+                const fechaFinAjustada = new Date(this.fechaFin);
+                fechaFinAjustada.setHours(23, 59, 59, 999);
+                
+                return fechaPlatillo >= this.fechaInicio && fechaPlatillo <= fechaFinAjustada;
+            });
+        }
+        
+        // Aplicar el ordenamiento actual y mostrar los platillos
+        this.ordenarYMostrarPlatillos();
     }
     
     cambiarTipo(tipo) {
@@ -142,7 +255,14 @@ class VisualizadorPlatillos {
             
             const xmlText = await response.text();
             this.platillos = this.parseXML(xmlText, tipo);
-            this.ordenarYMostrarPlatillos();
+            this.platillosOriginales = [...this.platillos]; // Guardar una copia de todos los platillos
+            
+            // Si hay un filtro de rango de fechas activo, aplicarlo
+            if (this.filtroRangoActivo) {
+                this.filtrarPorRangoFechas();
+            } else {
+                this.ordenarYMostrarPlatillos();
+            }
             
         } catch (error) {
             console.error('Error al cargar platillos:', error);
@@ -341,6 +461,7 @@ class VisualizadorPlatillos {
                 
                 // Eliminar el platillo de la lista y actualizar la vista
                 this.platillos = this.platillos.filter(p => !(p.id === id && p.tipo === tipo));
+                this.platillosOriginales = this.platillosOriginales.filter(p => !(p.id === id && p.tipo === tipo));
                 this.mostrarPlatillos();
             } else {
                 throw new Error(resultado.mensaje);
@@ -439,4 +560,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Inicializar el estado de los filtros
     visualizador.actualizarEstadoFiltros();
+    
+    // Verificar el estado del filtro de rango de fechas (por si se recarga la página)
+    if (visualizador.filtroRangoActivo) {
+        visualizador.actualizarEstiloFiltroRangoFechas(true);
+    }
 }); 

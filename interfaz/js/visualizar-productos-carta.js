@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarProductos();
 });
 
+// Función para obtener parámetros de URL
+function obtenerParametroURL(nombre) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(nombre);
+}
+
 // Función para cargar todos los productos
 async function cargarProductos() {
     try {
@@ -69,6 +75,16 @@ async function cargarProductos() {
         // Mostrar interfaz
         showLoading(false);
         categoriasContainer.style.display = 'block';
+        
+        // Verificar si hay un parámetro de categoría en la URL
+        const categoriaParam = obtenerParametroURL('id_categoria');
+        if (categoriaParam && categorias.includes(categoriaParam)) {
+            // Simular clic en el botón de esa categoría
+            const botonCategoria = document.querySelector(`[data-categoria-id="${categoriaParam}"]`);
+            if (botonCategoria) {
+                botonCategoria.click();
+            }
+        }
         
         console.log('Productos cargados exitosamente:', todosLosProductos.length);
         

@@ -480,7 +480,7 @@ pre {
 /* Imagen del platillo */
 .platillo-imagen {
   width: 100%;
-  height: 200px;
+  height: 300px;
   overflow: hidden;
   border-radius: var(--border-radius-medium);
   background-color: var(--surface-variant);
@@ -708,6 +708,61 @@ pre {
     color: var(--on-primary-container);
 }
 
+/* Estilos para los filtros de fecha */
+.fecha-input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.date-input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    flex: 1;
+}
+
+.rango-fechas-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo activo para los botones de filtro de fecha */
+#btnAplicarFiltro.active, #btnLimpiarFiltro.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Filtro de rango de fechas activo */
+.filtro-grupo.filtro-rango-activo {
+    background-color: rgba(0, 150, 136, 0.05);
+    border-color: var(--primary-color);
+    box-shadow: var(--elevation-1);
+}
+
+.filtro-grupo.filtro-rango-activo::after {
+    content: '✓';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 22px;
+    height: 22px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.filtro-grupo.filtro-rango-activo label {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
 @media (max-width: 768px) {
     .filtros-container {
         padding: var(--spacing-unit);
@@ -721,6 +776,10 @@ pre {
         width: 100%;
         margin-right: 0;
         margin-bottom: var(--spacing-unit);
+    }
+    
+    .fecha-input-container {
+        flex-direction: column;
     }
 }
 

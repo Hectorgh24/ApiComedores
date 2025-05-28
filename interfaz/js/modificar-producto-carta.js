@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultado = document.getElementById('resultado');
     const imgUrlInput = document.getElementById('img_url');
     const previewDiv = document.getElementById('preview-imagen');
+    const enlaceVolver = document.getElementById('enlaceVolver');
     
     // Cargar datos desde URL params
     cargarDatosDesdeParams();
@@ -21,7 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Llenar los campos del formulario
         if (id) document.getElementById('id').value = id;
-        if (id_categoria) document.getElementById('id_categoria').value = id_categoria;
+        if (id_categoria) {
+            document.getElementById('id_categoria').value = id_categoria;
+            // Actualizar enlace para volver con el id_categoria
+            enlaceVolver.href = `visualizar-productos-carta.html?id_categoria=${id_categoria}`;
+        }
         if (nombre) document.getElementById('nombre').value = nombre;
         if (descripcion) document.getElementById('descripcion').value = descripcion;
         if (precio) document.getElementById('precio').value = precio;
@@ -74,6 +79,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const url = this.value.trim();
         if (url) {
             mostrarPreviewImagen(url);
+        }
+    });
+    
+    // Escuchar cambios en el select de categoría para actualizar el enlace de volver
+    document.getElementById('id_categoria').addEventListener('change', function() {
+        const id_categoria = this.value;
+        if (id_categoria) {
+            enlaceVolver.href = `visualizar-productos-carta.html?id_categoria=${id_categoria}`;
+        } else {
+            enlaceVolver.href = 'visualizar-productos-carta.html';
         }
     });
     
@@ -147,10 +162,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (estado === 'true') {
                 alert('La modificación se ha guardado correctamente');
-                // Limpiar los campos del formulario
-                form.reset();
-                previewDiv.innerHTML = '';
-                resultado.style.display = 'none';
+                // Redireccionar a la vista de productos con la categoría actual seleccionada
+                window.location.href = `visualizar-productos-carta.html?id_categoria=${id_categoria}`;
             } else {
                 alert('Error al modificar el producto');
                 console.log('Error en la respuesta del servidor:', { estado, mensaje, xmlText });
