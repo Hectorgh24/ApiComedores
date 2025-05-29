@@ -1,3 +1,4 @@
+// 
 class VisualizadorPlatillos {
     constructor() {
         this.endpoints = {
