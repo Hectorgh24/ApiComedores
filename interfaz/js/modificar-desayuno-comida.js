@@ -112,7 +112,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Limpiar formulario si fue exitoso
             if (estado) {
                 limpiarFormulario();
+                // Redirigir a la página de desayunos_comidas
+                window.location.href = 'visualizar-platillos.html';
             }
+
+            
             
             if (!estado) {
                 console.error('Error al modificar:', mensaje);

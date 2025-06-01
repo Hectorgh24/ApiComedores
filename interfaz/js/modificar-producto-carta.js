@@ -38,27 +38,59 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Función para mostrar previsualización de imagen
     function mostrarPreviewImagen(url) {
-        // Limpiar preview anterior
-        previewDiv.innerHTML = '';
+        // Crear contenedor base si no existe
+        if (!previewDiv.querySelector('.preview-container')) {
+            previewDiv.innerHTML = `
+                <p><strong>Previsualización:</strong></p>
+                <div class="preview-container" style="
+                    width: 200px;
+                    height: 150px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #f5f5f5;
+                    color: #999;
+                    font-size: 14px;
+                    text-align: center;
+                    overflow: hidden;
+                ">
+                    <span class="placeholder-text">Sin imagen</span>
+                </div>
+            `;
+        }
         
-        if (!url) return;
+        const container = previewDiv.querySelector('.preview-container');
+        
+        if (!url || url.trim() === '') {
+            // Mostrar placeholder cuando no hay URL
+            container.style.backgroundColor = '#f5f5f5';
+            container.innerHTML = '<span class="placeholder-text" style="color: #999; font-size: 14px;">Sin imagen</span>';
+            return;
+        }
+        
+        // Mostrar estado de carga
+        container.style.backgroundColor = '#f9f9f9';
+        container.innerHTML = '<span style="color: #666; font-size: 12px;">Cargando...</span>';
         
         // Crear elemento de imagen
         const img = document.createElement('img');
-        img.style.maxWidth = '200px';
-        img.style.maxHeight = '150px';
-        img.style.border = '1px solid #ccc';
-        img.style.borderRadius = '4px';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '100%';
+        img.style.objectFit = 'contain';
         
         // Manejar carga exitosa
         img.onload = function() {
-            previewDiv.innerHTML = '<p><strong>Previsualización:</strong></p>';
-            previewDiv.appendChild(img);
+            container.style.backgroundColor = 'transparent';
+            container.innerHTML = '';
+            container.appendChild(img);
         };
         
         // Manejar error de carga
         img.onerror = function() {
-            previewDiv.innerHTML = '<p style="color: red;">Error: No se pudo cargar la imagen</p>';
+            container.style.backgroundColor = '#ffe6e6';
+            container.innerHTML = '<span style="color: #d32f2f; font-size: 12px; padding: 10px;">Error al cargar imagen</span>';
         };
         
         img.src = url;
@@ -67,11 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Escuchar cambios en el input de URL de imagen
     imgUrlInput.addEventListener('input', function() {
         const url = this.value.trim();
-        if (url) {
-            mostrarPreviewImagen(url);
-        } else {
-            previewDiv.innerHTML = '';
-        }
+        mostrarPreviewImagen(url);
     });
     
     // Escuchar cuando se pierde el foco (blur) para validar URL completa
@@ -96,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.limpiarFormulario = function() {
         if (confirm('¿Estás seguro de que deseas limpiar todos los campos?')) {
             form.reset();
-            previewDiv.innerHTML = '';
+            mostrarPreviewImagen('');
             resultado.style.display = 'none';
         }
     };
@@ -109,17 +137,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const id = document.getElementById('id').value;
         const id_categoria = document.getElementById('id_categoria').value;
         const nombre = document.getElementById('nombre').value;
-        const descripcion = document.getElementById('descripcion').value;
+        const descripcion = document.getElementById('descripcion').value.trim();
         const precio = document.getElementById('precio').value;
         const img_url = document.getElementById('img_url').value;
         
         // Crear el XML body
-        const xmlBody = `<?xml version="1.0" encoding="UTF-8"?>
+        let xmlBody = `<?xml version="1.0" encoding="UTF-8"?>
 <producto>
     <id>${id}</id>
     <id_categoria>${id_categoria}</id_categoria>
-    <nombre>${nombre}</nombre>
-    <descripcion>${descripcion}</descripcion>
+    <nombre>${nombre}</nombre>`;
+        
+        // Solo incluir descripción si no está vacía
+        if (descripcion) {
+            xmlBody += `
+    <descripcion>${descripcion}</descripcion>`;
+        }
+        
+        xmlBody += `
     <precio>${precio}</precio>
     <img_url>${img_url}</img_url>
 </producto>`;
