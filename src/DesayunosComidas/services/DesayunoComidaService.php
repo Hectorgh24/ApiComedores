@@ -50,5 +50,17 @@ class DesayunoComidaService {
     public static function crearInformacionNutrimental($datos) {
         return DesayunoComida::crearInformacionNutrimental($datos);
     }
+
+    public static function eliminar($id) {
+        return DesayunoComida::eliminar($id);
+    }
+
+    public static function modificar($datos) {
+        return DesayunoComida::modificar($datos);
+    }
+
+    public static function modificarInformacionNutrimental($datos) {
+        return DesayunoComida::modificarInformacionNutrimental($datos);
+    }
 }
 ?>

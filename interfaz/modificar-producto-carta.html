@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar producto de la carta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/material.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Modificar producto de la carta</h1>
+        
+        <a href="visualizar-productos-carta.html" class="nav-link" id="enlaceVolver">← Volver a productos de carta</a>
+        
+        <div class="card">
+            <form id="formModificarProductoCarta">
+                <h2>Formulario para modificar producto del menú</h2>
+
+                <input type="hidden" id="id" name="id">
+
+                <div class="form-group">
+                    <label for="id_categoria">Categoría:</label>
+                    <select id="id_categoria" name="id_categoria" required>
+                        <option value="">Selecciona la categoría</option>
+                        <option value="1">Platillos</option>
+                        <option value="2">Sandwiches y tortas</option>
+                        <option value="3">Sugerencias del chef</option>
+                        <option value="4">Postres</option>
+                        <option value="5">Bebidas</option>
+                        <option value="6">Ingredientes extra</option>
+                        <option value="7">Otros</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label for="nombre">Nombre del producto:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Sándwich Vegetariano" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <input type="text" id="descripcion" name="descripcion" rows="4" placeholder="Ej: Sándwich con pan integral, aguacate, lechuga, tomate, queso panela y aderezo especial.">
+                </div>
+                
+                <div class="form-group">
+                    <label for="precio">Precio:</label>
+                    <input type="number" id="precio" name="precio" min="0" step="0.01" placeholder="Ej: 55.00" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="img_url">URL de la imagen:</label>
+                    <input type="url" id="img_url" name="img_url" placeholder="https://ejemplo.com/imagenes/producto.jpg" required>
+                    <div id="preview-imagen" class="preview-container"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">Limpiar campos</button>
+            </form>
+        </div>
+        
+        <div id="resultado" class="card" style="display: none;"></div>
+    </div>
+    
+    <script src="js/modificar-producto-carta.js"></script>
+</body>
+</html> 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar productos de la carta - API Comedores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/material.css">
+</head>
+<body>
+    <div class="container">
+
+        <h1>Productos de la carta</h1>
+
+        <a href="index.html" class="nav-link">← Volver al menú principal</a>
+        
+        <div class="card">
+            <div class="loading-container" id="loadingContainer">
+                <p>Cargando categorías y productos...</p>
+            </div>
+            
+            <div class="error-container" id="errorContainer" style="display: none;">
+                <div class="alert alert-error">
+                    <p id="errorMessage"></p>
+                </div>
+            </div>
+
+            <div class="categorias-container" id="categoriasContainer" style="display: none;">
+                <h3>Selecciona una categoría:</h3>
+                <div class="toggle-buttons" id="categoriasButtons">
+                    <!-- Los botones de categorías se cargarán dinámicamente aquí -->
+                </div>
+            </div>
+            
+            <div class="productos-container" id="productosContainer">
+                <!-- Los productos se cargarán dinámicamente aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/visualizar-productos-carta.js"></script>
+</body>
+</html>

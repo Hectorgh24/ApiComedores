@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar desayuno/comida</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/material.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Modificar desayuno/comida</h1>
+        
+        <a href="visualizar-platillos.html" class="nav-link">← Volver a platillos</a>
+        
+        <div class="card">
+            <form id="formModificarDesayunoComida">
+                <h2>Formulario para modificar desayuno/comida</h2>
+
+                <div class="form-group">
+                    <label for="id">ID:</label>
+                    <input type="number" id="id" name="id" placeholder="Ej: 1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipo">Tipo:</label>
+                    <select id="tipo" name="tipo" required>
+                        <option value="">Selecciona el tipo</option>
+                        <option value="desayuno">Desayuno</option>
+                        <option value="comida">Comida</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" placeholder="Ej: Huevo en salsa roja, Frijoles, Fruta (papaya), Agua de tamarindo" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="img_url">URL de la imagen:</label>
+                    <input type="url" id="img_url" name="img_url" placeholder="https://ejemplo.com/imagenes/desayuno.jpg" required>
+                    <div id="preview-imagen" class="preview-container"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Modificar</button>
+            </form>
+        </div>
+        
+        <div id="resultado" class="card" style="display: none;"></div>
+    </div>
+    
+    <script src="js/modificar-desayuno-comida.js"></script>
+</body>
+</html> 
