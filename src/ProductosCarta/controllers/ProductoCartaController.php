@@ -70,6 +70,17 @@ class ProductoCartaController {
         echo XmlHandler::generarXML($productoCarta, 'producto_carta', 'otro');
    }
 
+    public static function obtenerProductoCartaPorNombre($nombre) {
+        $productoCarta = ProductoCartaService::obtenerProductoCartaPorNombre($nombre);
+        header('Content-Type: application/xml'); 
+
+        if(!$productoCarta) {
+            header("HTTP/1.1 404 Not Found");
+            echo "<error>Producto no encontrado</error>";
+        }
+        echo XmlHandler::generarXML($productoCarta, 'producto_carta', 'producto');
+    }
+
     public static function crear() {
         // Verificar que sea una solicitud POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

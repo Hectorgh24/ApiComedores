@@ -37,7 +37,11 @@ class ProductoCartaService {
     public static function obtenerOtros() {
         return ProductoCarta::obtenerOtros();
     }
-    
+
+    public static function obtenerProductoCartaPorNombre($nombre) {
+        return ProductoCarta::obtenerProductoCartaPorNombre($nombre);
+    }
+
     public static function crearProductoCarta($datos) {
         return ProductoCarta::crear($datos);
     }

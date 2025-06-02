@@ -68,6 +68,26 @@ class ProductoCarta{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public static function obtenerProductoCartaPorNombre($nombre){
+        global $conn;
+        $query = "SELECT * FROM producto_carta WHERE nombre = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $nombre);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public static function obtenerProductoCartaPorId($id){
+        global $conn;
+        $query = "SELECT * FROM producto_carta WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public static function crear($datos) {
         global $conn;
         $query = "INSERT INTO producto_carta (id_categoria, nombre, descripcion, precio, img_url) 
